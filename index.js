@@ -10,18 +10,20 @@ const userRouter = require('./routes/user');
 
 dotenv.config();
 const app = express();
-const PORT = 8000;
 
-// Set EJS
+// ✅ Use Render’s dynamic port or fallback to 8000 for local use
+const PORT = process.env.PORT || 8000;
+
+// --- EJS Setup ---
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 
-// Middleware
+// --- Middleware ---
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to check token and set res.locals.user
+// --- Middleware to check token and set res.locals.user ---
 app.use((req, res, next) => {
   const token = req.cookies.token;
   res.locals.user = null;
@@ -51,10 +53,10 @@ app.get('/signup', (req, res) => {
   res.render('signup', { error: null });
 });
 
-// Routers
+// --- Routers ---
 app.use('/project', projectRouter);
 app.use('/user', userRouter);
 
-// Database connection + start server
+// --- Database connection + Start Server ---
 connectionHandler();
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));
