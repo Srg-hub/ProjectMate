@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | ProjectMate</title>
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
+<body>
+  <div class="background">
+    <div class="image-card"><img src="/css/images/louise-viallesoubranne-5EhN4wbfvBc-unsplash.jpg" alt=""></div>
+    <div class="image-card"><img src="/css/images/mimi-thian-vdXMSiX-n6M-unsplash.jpg" alt=""></div>
+    <div class="image-card"><img src="/css/images/priscilla-du-preez-OEdkPaxYMXU-unsplash.jpg" alt=""></div>
+    <div class="image-card"><img src="/css/images/priscilla-du-preez-xLKg2s4rXWE-unsplash.jpg" alt=""></div>
+  </div>
+
+  <h1 class="brand-name">ProjectMate</h1>
+  <p class="tagline">Connect • Collaborate • Create</p>
+
+  <div class="auth-container">
+    <form action="/user/login" method="POST" class="auth-box">
+      <h2>Welcome</h2>
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+    </form>
+  </div>
+</body>
+</html>

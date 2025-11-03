@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Create a New Project</title>
+    <style>
+        body {
+            background: radial-gradient(circle at top left, #0a0a0a, #1b1b1b);
+            color: #f5f5f5;
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 700px;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.15);
+            margin-top: 80px;
+            transition: all 0.3s ease-in-out;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .container:hover {
+            box-shadow: 0 0 25px rgba(0, 123, 255, 0.25);
+        }
+
+        h2 {
+            color: #00bfff;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(0, 191, 255, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            color: #cfcfcf;
+            font-weight: 500;
+        }
+
+        .form-control,
+        .form-select {
+            background-color: #121212;
+            color: #f5f5f5;
+            border: 1px solid #333;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: #1a1a1a;
+            border-color: #00bfff;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #007bff, #00bfff);
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #00bfff, #007bff);
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 40px 20px;
+                padding: 25px;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/navbar') %>
+
+    <div class="container">
+        <h2 class="text-center">Create a New Project</h2>
+        <form action="/project/create" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" id="description" name="desc" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="skills" class="form-label">Skills You Want:</label>
+                <input type="text" class="form-control" id="skills" name="skills" placeholder="e.g. React, Node.js, Figma" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="domain" class="form-label">Domain:</label>
+                <select class="form-select" id="domain" name="domain" required>
+                    <option value="" disabled selected>Select Domain</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="App Development">App Development</option>
+                    <option value="AI/ML">AI / Machine Learning</option>
+                    <option value="Blockchain">Blockchain</option>
+                    <option value="Cybersecurity">Cybersecurity</option>
+                    <option value="Game Development">Game Development</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3 w-100">Submit Project</button>
+        </form>
+    </div>
+
+    <%- include('./partials/scripts') %>    
+</body>
+</html>

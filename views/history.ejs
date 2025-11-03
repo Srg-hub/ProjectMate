@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+  <title>Project & Application History</title>
+
+  <style>
+    /* === Base Dark Theme === */
+    body {
+      background: radial-gradient(circle at top, #050505, #020202 70%);
+      color: #e6eef8;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 60px 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === Page Header === */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .page-header h2 {
+      color: #00bfff;
+      font-weight: 700;
+      font-size: 2.3rem;
+      text-shadow: 0 0 10px rgba(0,191,255,0.4);
+      letter-spacing: 1px;
+      animation: glowPulse 2s infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 10px #00bfff66, 0 0 20px #00bfff33; }
+      to { text-shadow: 0 0 20px #00bfff, 0 0 40px #0099ff; }
+    }
+
+    .page-header p {
+      color: #b8c6d9;
+      font-size: 1rem;
+    }
+
+    /* === Layout === */
+    .history-split {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .history-section {
+      flex: 1 1 420px;
+      max-width: 520px;
+      background: rgba(10, 10, 15, 0.8);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.6rem;
+      box-shadow: 0 0 20px rgba(0,191,255,0.05);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated border glow */
+    .history-section::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(90deg, #00bfff, #0088ff, #00bfff);
+      background-size: 300% 300%;
+      animation: borderGlow 5s linear infinite;
+      border-radius: 14px;
+      z-index: 0;
+      opacity: 0.08;
+    }
+
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .history-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 35px rgba(0,191,255,0.1);
+    }
+
+    .history-section h4 {
+      color: #00bfff;
+      font-weight: 600;
+      margin-bottom: 18px;
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+    }
+    .history-section h4::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #00bfff, #0088ff);
+    }
+
+    /* === Cards === */
+    .card {
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+      margin-bottom: 14px;
+      transition: all 0.25s ease;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 20px rgba(0,191,255,0.08);
+    }
+
+    .card-body {
+      padding: 16px;
+    }
+
+    .card-title {
+      color: #dff5ff;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .card-text {
+      color: #bfcbdc;
+      margin-bottom: 10px;
+    }
+
+    .badge-label {
+      font-size: 0.8rem;
+      padding: 5px 9px;
+      border-radius: 8px;
+      margin-right: 6px;
+    }
+
+    .badge.bg-success {
+      background: linear-gradient(90deg, #28c76f, #60d394);
+      color: #011;
+    }
+
+    .badge.bg-primary {
+      background: linear-gradient(90deg, #00bfff, #3aa0ff);
+      color: #011;
+    }
+
+    .text-muted {
+      color: #9bacbf !important;
+    }
+
+    .empty-note {
+      text-align: center;
+      color: #9aaac3;
+      font-style: italic;
+      padding: 22px 6px;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 900px) {
+      .history-split {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('./partials/navbar') %>
+
+  <div class="container">
+    <div class="page-header">
+      <h2> Your Project & Application History</h2>
+      <p>Review your past creations and collaborations</p>
+    </div>
+
+    <div class="history-split">
+      <!-- Left: Project History -->
+      <div class="history-section">
+        <h4>Your Project History</h4>
+
+        <% if (!createdHistory || createdHistory.length === 0) { %>
+          <div class="empty-note">No project history available.</div>
+        <% } else { %>
+          <% createdHistory.forEach(project => { %>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= project.title %></h5>
+                <p class="card-text"><%= project.desc %></p>
+                <p class="card-text mb-1">
+                  <span class="badge bg-success badge-label">Approved User:</span>
+                  <span class="text-muted"><%= project.approved_user?.email || 'N/A' %></span>
+                </p>
+                <p class="text-muted">Domain: <%= project.domain %></p>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+
+      <!-- Right: Application History -->
+      <div class="history-section">
+        <h4>Your Application History</h4>
+
+        <% if (!appliedHistory || appliedHistory.length === 0) { %>
+          <div class="empty-note">No application history available.</div>
+        <% } else { %>
+          <% appliedHistory.forEach(project => { %>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= project.title %></h5>
+                <p class="card-text"><%= project.desc %></p>
+                <p class="card-text mb-1">
+                  <span class="badge bg-primary badge-label">Project Owner:</span>
+                  <span class="text-muted"><%= project.createdBy?.email || 'N/A' %></span>
+                </p>
+                <p class="text-muted">Domain: <%= project.domain %></p>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <%- include('./partials/scripts') %>
+</body>
+</html>

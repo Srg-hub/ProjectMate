@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Projects</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0b0c10;
+      color: #f0f0f0;
+      overflow-x: hidden;
+    }
+
+    h2 {
+      font-weight: 600;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
+    }
+
+    .project-card {
+      background: linear-gradient(145deg, #1a1c22, #121317);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      transition: all 0.35s ease;
+      opacity: 0;
+      transform: translateY(25px);
+      animation: fadeInUp 0.8s forwards;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 0 25px rgba(13, 110, 253, 0.3);
+    }
+
+    .card-body {
+      padding: 1.8rem;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      color: #0d6efd;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 1rem;
+      color: #adb5bd;
+      margin-bottom: 0.8rem;
+    }
+
+    .card-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+    }
+
+    .skills {
+      font-weight: 500;
+      color: #74b9ff;
+      font-size: 0.95rem;
+    }
+
+    .applicants-list {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 0.5rem 1rem;
+    }
+
+    .applicants-list div {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-outline-primary {
+      border-radius: 10px;
+      border: 1px solid #0d6efd;
+      color: #0d6efd;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: #0d6efd;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(13, 110, 253, 0.6);
+      transform: scale(1.02);
+    }
+
+    .btn-primary {
+      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, #0d6efd, #4c8bfd);
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(13, 110, 253, 0.6);
+    }
+
+    .no-projects {
+      background: linear-gradient(145deg, #16181e, #0f1014);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      padding: 3rem;
+    }
+
+    /* ✨ Animation Keyframes */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Smooth entry animation for all cards */
+    .project-card:nth-child(1) { animation-delay: 0.1s; }
+    .project-card:nth-child(2) { animation-delay: 0.2s; }
+    .project-card:nth-child(3) { animation-delay: 0.3s; }
+    .project-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #0d6efd;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #121317;
+    }
+  </style>
+</head>
+<body class="pb-5">
+  <%- include('partials/navbar') %>
+
+  <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">My Open Projects</h2>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% if (projects && projects.length > 0) { %>
+        <% projects.forEach(project => { %>
+          <div class="col">
+            <div class="project-card h-100 d-flex flex-column justify-content-between">
+              <div class="card-body">
+                <h5 class="card-title"><%= project.title %></h5>
+                <h6 class="card-subtitle"><%= project.domain %></h6>
+                <p class="card-text mt-2"><%= project.desc %></p>
+                <p class="skills">Skills: 
+                  <%= (project.skills_req && typeof project.skills_req.join === 'function') 
+                      ? project.skills_req.join(', ') 
+                      : (project.skills_req || 'None specified') %>
+                </p>
+
+                <h6 class="mt-4 mb-2 text-info">Applicants (<%= project.applicants.length %>)</h6>
+                <% if (project.applicants.length > 0) { %>
+                  <div class="applicants-list">
+                    <% project.applicants.forEach(app => { %>
+                      <div class="d-flex justify-content-between align-items-center small py-1">
+                        <span><%= app.user.name || app.user.email %></span>
+                        <small class="text-muted"><%= new Date(app.appliedAt).toLocaleDateString() %></small>
+                      </div>
+                    <% }) %>
+                  </div>
+                <% } else { %>
+                  <p class="text-light small fst-italic mt-1">No new applicants in the last 3 days.</p>
+                <% } %>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+                <a href="/project/<%= project._id %>/applicants" class="btn btn-outline-primary w-100">
+                  View All Applicants
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12 text-center">
+          <div class="no-projects">
+            <h4 class="fw-semibold mb-2 text-light">You have no open projects.</h4>
+            <p class="text-light small fst-italic mt-1">Start something great by creating your first project!</p>
+            <a href="/project/create" class="btn btn-primary shadow-sm px-4">Create a Project</a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

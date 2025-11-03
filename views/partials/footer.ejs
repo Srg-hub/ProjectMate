@@ -1,0 +1,32 @@
+<div class="container-fluid bg-dark text-white-50 mt-5 py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <h5>ProjectHunter</h5>
+                <p class="mb-0">Connect. Collaborate. Create.</p>
+            </div>
+            <div class="col-md-3 mb-3 mb-md-0">
+                <h5>Quick Links</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-white-50">Home</a></li>
+                    <li class="nav-item mb-2"><a href="/project/find" class="nav-link p-0 text-white-50">Find Projects</a></li>
+                    <li class="nav-item mb-2"><a href="/project/create" class="nav-link p-0 text-white-50">Create a Project</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Account</h5>
+                <ul class="nav flex-column">
+                    <% if (locals.user) { %>
+                        <li class="nav-item mb-2"><a href="/user/profile" class="nav-link p-0 text-white-50">Profile</a></li>
+                        <li class="nav-item mb-2"><a href="/user/logout" class="nav-link p-0 text-white-50">Logout</a></li>
+                    <% } else { %>
+                        <li class="nav-item mb-2"><a href="/user/login" class="nav-link p-0 text-white-50">Login</a></li>
+                        <li class="nav-item mb-2"><a href="/user/signup" class="nav-link p-0 text-white-50">Sign Up</a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <hr class="text-white-50">
+        <p class="text-center text-white-50 mb-0">&copy; <%= new Date().getFullYear() %> ProjectHunter. All Rights Reserved.</p>
+    </div>
+</div>
